@@ -1,0 +1,15 @@
+language: python
+services:
+  - docker
+before_script:
+  - |
+    docker build --tag emacs-test - <<EOF
+    FROM ubuntu:xenial
+    RUN apt-get update --quiet && apt-get install --quiet --yes emacs-nox python-minimal
+script: >-
+  docker run --rm --volume $(pwd):/workdir:ro --workdir /workdir emacs-test
+  emacs --quick --batch
+  --load ert
+  --load python-switch-quotes.el
+  --load test-python-switch-quotes.el
+  --funcall ert-run-tests-batch-and-exit
