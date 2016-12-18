@@ -9,17 +9,36 @@
 ;;; Keywords: python
 ;;; Package-Requires:
 
+;;; This file is not part of GNU Emacs.
+
+;;; This program is free software: you can redistribute it and/or
+;;; modify it under the terms of the GNU General Public License as
+;;; published by the Free Software Foundation, either version 3 of the
+;;; License, or (at your option) any later version.
+
+;;; This program is distributed in the hope that it will be useful,
+;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+;;; General Public License for more details.
+
+;;; You should have received a copy of the GNU General Public License
+;;; along with this program. If not, see
+;;; <http://www.gnu.org/licenses/>.
+
 ;;; Commentary:
 ;;;   Converts strings like 'this' to strings like "this".
 ;;;   Supports raw strings, docstrings and strings with escaped quotes.
 ;;;
-;;;   Assigns key C-c ' to convert string at point.
+;;;   Assigns key ``C-c '`` to convert string at point.
+
 
 ;;; Code:
 (require 'python)
 
 (defun python-switch-quotes--simple (string-start string-end old-quote new-quote)
-  "Private: \"hello world\" => 'hello world'."
+  "Private: Convert simple strings like \"hello world\" => 'hello world'.
+Expected that string is between STRING-START and STRING-END.
+OLD-QUOTE and NEW-QUOTE may be ?' or ?\"."
   (goto-char (1- string-end))
   (save-excursion
     (delete-char 1)
@@ -42,7 +61,9 @@
 
 
 (defun python-switch-quotes--raw-simple (string-start string-end new-quote)
-  "Private: r\"hello world\" => r'hello world'"
+  "Private: Convert simple strings like r\"hello world\" => r'hello world'.
+Expected that string is between STRING-START and STRING-END.
+NEW-QUOTE may be ?' or ?\"."
   (goto-char (1- string-end))
   (delete-char 1)
   (insert new-quote)
@@ -52,7 +73,9 @@
 
 
 (defun python-switch-quotes--docstring (string-start string-end old-quote new-quote)
-  "Private: \"\"\"hello world\"\"\" => '''hello world'''."
+  "Private: Convert docstrings like \"\"\"hello\"\"\" => '''hello'''.
+Expected that string is between STRING-START and STRING-END.
+OLD-QUOTE and NEW-QUOTE may be ?' or ?\"."
   (goto-char string-start)
   (delete-char 3)
   (insert new-quote new-quote new-quote)
@@ -83,7 +106,9 @@
 
 
 (defun python-switch-quotes--raw-docstring (string-start string-end new-quote)
-  "Private: r\"hello world\" => r'hello world'."
+  "Private: Convert raw docstrings like r\"\"\"hello\"\"\" => r'''hello'''.
+Expected that string is between STRING-START and STRING-END.
+OLD-QUOTE and NEW-QUOTE may be ?' or ?\"."
   (goto-char (- string-end 3))
   (delete-char 3)
   (insert new-quote new-quote new-quote)
@@ -108,14 +133,14 @@ POS - point inside of string, using current position if omitted."
                (is-docstring (equal (buffer-substring string-start (+ 3 string-start))
                                     (string old-quote old-quote old-quote))))
           (cond
-            ((and is-raw is-docstring)
-             (python-switch-quotes--raw-docstring string-start string-end new-quote))
-            (is-docstring
-             (python-switch-quotes--docstring string-start string-end old-quote new-quote))
-            (is-raw
-             (python-switch-quotes--raw-simple string-start string-end new-quote))
-            (t
-             (python-switch-quotes--simple string-start string-end old-quote new-quote))))))))
+           ((and is-raw is-docstring)
+            (python-switch-quotes--raw-docstring string-start string-end new-quote))
+           (is-docstring
+            (python-switch-quotes--docstring string-start string-end old-quote new-quote))
+           (is-raw
+            (python-switch-quotes--raw-simple string-start string-end new-quote))
+           (t
+            (python-switch-quotes--simple string-start string-end old-quote new-quote))))))))
 
 (define-key python-mode-map (kbd "C-c '") 'python-switch-quotes)
 

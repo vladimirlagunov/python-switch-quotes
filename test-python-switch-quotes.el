@@ -1,3 +1,20 @@
+;;; This file is not part of GNU Emacs.
+
+;;; This program is free software: you can redistribute it and/or
+;;; modify it under the terms of the GNU General Public License as
+;;; published by the Free Software Foundation, either version 3 of the
+;;; License, or (at your option) any later version.
+
+;;; This program is distributed in the hope that it will be useful,
+;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+;;; General Public License for more details.
+
+;;; You should have received a copy of the GNU General Public License
+;;; along with this program. If not, see
+;;; <http://www.gnu.org/licenses/>.
+
+;;; How to run tests (with emacs 24 and greater):
 ;;; emacs -Q -batch -l ert -l python-switch-quotes.el -l test-python-switch-quotes.el -f ert-run-tests-batch-and-exit
 
 (require 'python-switch-quotes)
@@ -27,72 +44,68 @@
     (eq (string-to-char result) ?1)))
 
 
-(defmacro test-one-fixture (fixture reversible)
-  (remove
-   nil
-   `(let ((py-string) (py-string1) (py-string2))
-      (setq py-string ,fixture)
-      (setq py-string1 (switch-it py-string))
-      (should (python-approves py-string py-string1))
-      (setq py-string2 (switch-it py-string1))
-      (should (python-approves py-string1 py-string2))
-      ,(when reversible
-         `(should (equal py-string py-string2))))))
+(defmacro test-one-fixture (fixture)
+  `(let ((py-string) (py-string1) (py-string2))
+     (setq py-string ,fixture)
+     (setq py-string1 (switch-it py-string))
+     (should (python-approves py-string py-string1))
+     (setq py-string2 (switch-it py-string1))
+     (should (python-approves py-string1 py-string2))))
 
 
 (ert-deftest test-in-python ()
   ;;; simple strings
-  (test-one-fixture "'hello world'" t)
-  (test-one-fixture "\"hello world\"" t)  
+  (test-one-fixture "'hello world'")
+  (test-one-fixture "\"hello world\"")  
 
-  (test-one-fixture "'hello \\u0022 \\u0027 world\\n'" t)
+  (test-one-fixture "'hello \\u0022 \\u0027 world\\n'")
 
-  (test-one-fixture "'\\'hello world'" t)
-  (test-one-fixture "'hello world\\''" t)
-  (test-one-fixture "'hello \" world'" t)
-  (test-one-fixture "'he\\'llo \\'\\'\\' world'" t)
-  (test-one-fixture "\"he'llo ''' world\"" t)
+  (test-one-fixture "'\\'hello world'")
+  (test-one-fixture "'hello world\\''")
+  (test-one-fixture "'hello \" world'")
+  (test-one-fixture "'he\\'llo \\'\\'\\' world'")
+  (test-one-fixture "\"he'llo ''' world\"")
 
   ;;; docstrings
-  (test-one-fixture "'''hello world'''" t)
-  (test-one-fixture "\"\"\"hello world\"\"\"" t)
+  (test-one-fixture "'''hello world'''")
+  (test-one-fixture "\"\"\"hello world\"\"\"")
 
-  (test-one-fixture "'''hello 'quoted' world'''" t)
-  (test-one-fixture "'''hello \"quoted\" world'''" t)
+  (test-one-fixture "'''hello 'quoted' world'''")
+  (test-one-fixture "'''hello \"quoted\" world'''")
 
-  (test-one-fixture "'''hello world\"'''" t)
-  (test-one-fixture "\"\"\"hello world'\"\"\"" t)
+  (test-one-fixture "'''hello world\"'''")
+  (test-one-fixture "\"\"\"hello world'\"\"\"")
 
-  (test-one-fixture "'''\\'''hello \\''' world\\'\\'\\''''" t)
-  (test-one-fixture "\"\"\"\\\"\"\"hello \\\"\"\" world\\\"\\\"\\\"\"\"\"" t)
+  (test-one-fixture "'''\\'''hello \\''' world\\'\\'\\''''")
+  (test-one-fixture "\"\"\"\\\"\"\"hello \\\"\"\" world\\\"\\\"\\\"\"\"\"")
 
   ;;; simple raw strings
-  (test-one-fixture "r'hello world'" t)
-  (test-one-fixture "R\"hello world\"" t)
+  (test-one-fixture "r'hello world'")
+  (test-one-fixture "R\"hello world\"")
 
-  (test-one-fixture "r'hello \\' world'" t)
-  (test-one-fixture "r\"hello \\' world\"" t)
-  (test-one-fixture "r'hello \\\" world'" t)
-  (test-one-fixture "r\"hello \\\" world\"" t)
+  (test-one-fixture "r'hello \\' world'")
+  (test-one-fixture "r\"hello \\' world\"")
+  (test-one-fixture "r'hello \\\" world'")
+  (test-one-fixture "r\"hello \\\" world\"")
 
-  (test-one-fixture "r'\\'hello'" t)
-  (test-one-fixture "r'hello\\''" t)
-  (test-one-fixture "r'\\\"hello'" t)
-  (test-one-fixture "r'hello\\\"'" t)
+  (test-one-fixture "r'\\'hello'")
+  (test-one-fixture "r'hello\\''")
+  (test-one-fixture "r'\\\"hello'")
+  (test-one-fixture "r'hello\\\"'")
 
   ;;; raw docstrings
-  (test-one-fixture "r'''hello world'''" t)
-  (test-one-fixture "r\"\"\"hello world\"\"\"" t)
+  (test-one-fixture "r'''hello world'''")
+  (test-one-fixture "r\"\"\"hello world\"\"\"")
 
-  (test-one-fixture "r'''hello \\' world'''" t)
-  (test-one-fixture "r'''hello \\\" world'''" t)
-  (test-one-fixture "r\"\"\"hello \\' world\"\"\"" t)
-  (test-one-fixture "r\"\"\"hello \\\" world\"\"\"" t)
+  (test-one-fixture "r'''hello \\' world'''")
+  (test-one-fixture "r'''hello \\\" world'''")
+  (test-one-fixture "r\"\"\"hello \\' world\"\"\"")
+  (test-one-fixture "r\"\"\"hello \\\" world\"\"\"")
 
-  (test-one-fixture "r'''hello world\\''''" t)
-  (test-one-fixture "r'''hello world\\\"'''" t)
-  (test-one-fixture "r\"\"\"hello world\\\"\"\"\"" t)
-  (test-one-fixture "r\"\"\"hello world\\'\"\"\"" t)
+  (test-one-fixture "r'''hello world\\''''")
+  (test-one-fixture "r'''hello world\\\"'''")
+  (test-one-fixture "r\"\"\"hello world\\\"\"\"\"")
+  (test-one-fixture "r\"\"\"hello world\\'\"\"\"")
 
   ;;; like a real case
   (test-one-fixture "'''
@@ -102,7 +115,7 @@ Simple doctest for digits
 4
 >>> 3 * 3
 9
-'''" t)
+'''")
 
   (test-one-fixture "'''
 Strings with backslashes
@@ -112,7 +125,7 @@ Strings with backslashes
 'C:\\\\\\\\autoexec.bat'
 >>> print(path)
 C:\\\\autoexec.bat
-'''" t)
+'''")
 
   (test-one-fixture "r'''
 Strings with backslashes
@@ -122,4 +135,4 @@ Strings with backslashes
 'C:\\\\autoexec.bat'
 >>> print(path)
 C:\\autoexec.bat
-'''" t))
+'''"))
