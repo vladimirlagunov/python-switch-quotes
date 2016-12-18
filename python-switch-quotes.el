@@ -1,4 +1,4 @@
-;;; python-switch-quotes.el --- cycle between apostrophes and quotes in python strings
+;;; python-switch-quotes.el --- cycle between ' and " quotes in python strings
 ;;; Copyright (C) 2016 Vladimir Lagunov
 
 ;;; Author: Vladimir Lagunov <lagunov.vladimir@gmail.com>
@@ -6,8 +6,8 @@
 ;;; URL: https://github.com/werehuman/python-switch-quotes
 ;;; Created: 2016-12-18
 ;;; Version: 0.1
-;;; Keywords: python
-;;; Package-Requires:
+;;; Keywords: python tools convenience
+;;; Package-Requires: ()
 
 ;;; This file is not part of GNU Emacs.
 
