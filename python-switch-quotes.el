@@ -7,7 +7,7 @@
 ;;; Created: 2016-12-18
 ;;; Version: 0.1
 ;;; Keywords: python tools convenience
-;;; Package-Requires: ()
+;;; Package-Requires: ((emacs "24.3"))
 
 ;;; This file is not part of GNU Emacs.
 
