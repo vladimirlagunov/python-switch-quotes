@@ -142,7 +142,5 @@ POS - point inside of string, using current position if omitted."
            (t
             (python-switch-quotes--simple string-start string-end old-quote new-quote))))))))
 
-(define-key python-mode-map (kbd "C-c '") 'python-switch-quotes)
-
 (provide 'python-switch-quotes)
 ;;; python-switch-quotes.el ends here

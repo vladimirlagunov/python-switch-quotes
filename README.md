@@ -7,4 +7,13 @@ Supports raw strings, docstrings and strings with escaped quotes.
 
 ![Example](http://i.imgur.com/xvjsbbs.gif)
 
-Assigns key `C-c '` to convert string at point.
+# How to use
+
+Clone this repository, open `python-switch-quotes.el` in Emacs and run `M-x package-install-from-buffer RET`.
+
+Then put into your `init.el`:
+
+```emacs
+(require 'python-switch-quotes)
+(define-key python-mode-map (kbd "C-c '") 'python-switch-quotes)
+```
