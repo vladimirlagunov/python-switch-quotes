@@ -15,7 +15,7 @@
 ;;; <http://www.gnu.org/licenses/>.
 
 ;;; How to run tests (with emacs 24 and greater):
-;;; emacs -Q -batch -l ert -l python-switch-quotes.el -l test-python-switch-quotes.el -f ert-run-tests-batch-and-exit
+;;; emacs -Q -batch -l ert -l python-switch-quotes.el -l python-switch-quotes-test.el -f ert-run-tests-batch-and-exit
 
 (require 'python-switch-quotes)
 

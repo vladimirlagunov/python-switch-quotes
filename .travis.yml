@@ -11,5 +11,5 @@ script: >-
   emacs --quick --batch
   --load ert
   --load python-switch-quotes.el
-  --load test-python-switch-quotes.el
+  --load python-switch-quotes-test.el
   --funcall ert-run-tests-batch-and-exit
