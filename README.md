@@ -9,7 +9,11 @@ Supports raw strings, docstrings and strings with escaped quotes.
 
 # How to use
 
-Clone this repository, open `python-switch-quotes.el` in Emacs and run `M-x package-install-from-buffer RET`.
+You can install it from MELPA:
+* http://melpa.org/#/getting-started
+* `M-x package-install RET python-switch-quotes RET`
+
+Or clone this repository, open `python-switch-quotes.el` in Emacs and run `M-x package-install-from-buffer RET`.
 
 Then put into your `init.el`:
 
