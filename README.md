@@ -1,13 +1,13 @@
 # python-switch-quotes
 
-![Travis-CI build status](https://api.travis-ci.org/werehuman/python-switch-quotes.svg?branch=master)
+[![Travis-CI build status](https://api.travis-ci.org/werehuman/python-switch-quotes.svg?branch=master)](https://travis-ci.org/werehuman/python-switch-quotes)
 
 Converts strings like `'this'` to strings like `"this"`.
 Supports raw strings, docstrings and strings with escaped quotes.
 
 ![Example](http://i.imgur.com/xvjsbbs.gif)
 
-# How to use
+# Installation
 
 You can install it from MELPA:
 * http://melpa.org/#/getting-started
@@ -21,3 +21,7 @@ Then put into your `init.el`:
 (require 'python-switch-quotes)
 (define-key python-mode-map (kbd "C-c '") 'python-switch-quotes)
 ```
+
+# Usage
+
+Move cursor to the middle of string and press `C-c '`.
