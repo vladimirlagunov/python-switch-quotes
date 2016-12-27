@@ -53,6 +53,18 @@
      (should (python-approves py-string1 py-string2))))
 
 
+(defmacro expect-error (fixture error-msg)
+  `(with-temp-buffer
+     (setq python-indent-guess-indent-offset nil)
+     (python-mode)
+     (insert ,fixture)
+     (goto-char (/ (buffer-end 1) 2))
+     (let ((got-error-msg
+            (cadr (should-error (python-switch-quotes)))))
+       (should (string-equal got-error-msg ,error-msg)))
+     (should (string-equal ,fixture (buffer-string)))))
+
+
 (ert-deftest test-in-python ()
   ;;; simple strings
   (test-one-fixture "'hello world'")
@@ -135,4 +147,12 @@ Strings with backslashes
 'C:\\\\autoexec.bat'
 >>> print(path)
 C:\\autoexec.bat
-'''"))
+'''")
+
+  ;;; failed in previous versions
+  (let ((error-msg "Impossible to switch quotes in these raw string"))
+    (expect-error "r'hello \" world'" error-msg)
+    (expect-error "r\"hello ' world\"" error-msg)
+    (expect-error "r'\"\\''" error-msg)
+    (expect-error "r\"'\\\"\"" error-msg)
+    (expect-error "r'^export +([^=]+)=([\"\\'])'" error-msg)))
