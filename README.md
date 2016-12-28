@@ -1,5 +1,6 @@
 # python-switch-quotes
 
+[![MELPA](https://melpa.org/packages/python-switch-quotes-badge.svg)](https://melpa.org/#/python-switch-quotes)
 [![Travis-CI build status](https://api.travis-ci.org/werehuman/python-switch-quotes.svg?branch=master)](https://travis-ci.org/werehuman/python-switch-quotes)
 
 Converts strings like `'this'` to strings like `"this"`.
